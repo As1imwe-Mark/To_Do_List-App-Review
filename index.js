@@ -1,19 +1,19 @@
 import './style.css';
-import { add } from "./Modules/add.js";
-import { clear } from './Modules/clear.js';
+import { addToArray } from "./Modules/add.js";
+import { clearInputField } from './Modules/clear.js';
 import { save } from "./Modules/save.js";
-import { loadList } from './Modules/load.js';
+import { loadListItems } from './Modules/load.js';
 import { iconToggle } from './Modules/iconToggle.js';
-import { del } from './Modules/remove.js';
-import { complete } from './Modules/status.js';
-import { clearAll } from './Modules/clearAll.js';
+import { deleteItem } from './Modules/remove.js';
+import { toggleCompleteStatus } from './Modules/status.js';
+import { clearAllCompleted } from './Modules/clearAll.js';
 import { refresh } from './Modules/refresh.js';
 import { edit } from './Modules/edit';
 
 let list = [];
 
 
-function populate() {
+function populateDOM() {
   const itemList = document.querySelector('.list-items');
   const item = document.querySelector('.item-input');
 
@@ -32,7 +32,7 @@ function populate() {
       `;
       itemList.appendChild(newItemElement);
       save(list);
-      clear();
+      clearInputField();
      
       
       iconToggle()
@@ -71,7 +71,7 @@ class Items {
     this.index = index;
   }
 }
-export function add(list) {
+export function addToArray(list) {
   const item = document.querySelector('.item-input');
   const itemValue = item.value.trim();
   if (itemValue === '') {
@@ -86,13 +86,13 @@ export function add(list) {
   }
 }
 
-export const clear = () => {
+export const clearInputField = () => {
   document.querySelector('.item-input').value = '';
 };
 
 import { save } from "./save";
 
-export const clearAll = (list) => {
+export const clearAllCompleted = (list) => {
   const clear = document.querySelector('.clear');
   clear.addEventListener('click', (e) => {
     e.preventDefault()
@@ -108,7 +108,7 @@ export const clearAll = (list) => {
 
 import { save } from "./save";
 
-export function edit(list) {
+export function editTodo(list) {
   const description = document.querySelectorAll('.txt');
   description.forEach(txt => {
     txt.addEventListener('dblclick', () => {
@@ -157,7 +157,7 @@ import { save } from "./save";
 import { edit } from "./edit";
 let index=0;
 let list=[];
-export const loadList=() =>{
+export const loadListItems=() =>{
   const itemList=document.querySelector('.list-items');
   const storedList = JSON.parse(localStorage.getItem('Todo' || []));
   itemList.innerHTML = '';
@@ -192,7 +192,7 @@ export function refresh (){
 
 import { save } from "./save";
 
-export function del(list) {
+export function deleteItems(list) {
   const itemList = document.querySelector('.list-items');
   itemList.addEventListener('click', function (e) {
     e.preventDefault();
@@ -221,7 +221,7 @@ export function save (list) {
 
 import { save } from "./save";
 
-export function complete(list) {
+export function ToggleCompleteStatus(list) {
   const itemList = document.querySelector('.list-items');
   const storedList = JSON.parse(localStorage.getItem('list')) || [];
   list.forEach((item, index) => {
